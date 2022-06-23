@@ -12,4 +12,4 @@ You will then be prompted to provide the name of the show as well as what season
 
 From here the script will do it's thing and rename your files from something like "My_Show_S1_Episode_10_XYSSYXS.mkv" to "My Show S01E01.mkv."  
 
-That's basically it.  It's far from perfect and can easily break but it kind of works and is making my life a lot easier.
+That's basically it.  It's far from perfect and can easily break but it kind of works and is making my life a lot easier and wanted to share.
