@@ -1,4 +1,4 @@
-﻿<# The intention of this script is to somewhat automate the process of renaming video files, specifically TV shows or Anime series. #>
+<# The intention of this script is to somewhat automate the process of renaming video files, specifically TV shows or Anime series. #>
 <# When I 'acquire' a show, often times the episodes are named in a way that I don't really like, so I've been manually renaming them, but that got old and I got bored...#>
 <# I'm a very amateur programmer, so I'm sure there's a way to make this script completely automated but as it stands the script does require some user input to get going. #>
 <# You will need to tell the program where the video files you want renamed are and you will also have to tell it what file type they are.  Once that information is provided it will gather a list of your chosen video files #>
@@ -19,9 +19,13 @@ do{
         $oldName = $files[$i].Name;
         $fileLocation = "$location\$oldName";
         $episode = $i + 1;
-       
-        if ($episode -ge 10){
-            Rename-Item -Path $fileLocation -NewName "$($showname) S0$($seasonNum)E$($episode).$($format)";
+
+        if ($seasonNum -ge 10){
+            if ($episode -ge 10){
+                Rename-Item -Path $fileLocation -NewName "$($showname) S$($seasonNum)E$($episode).$($format)";
+            }else {
+                Rename-Item -Path $fileLocation -NewName "$($showname) S$($seasonNum)E0$($episode).$($format)";
+            };      
         }else {
             Rename-Item -Path $fileLocation -NewName "$($showname) S0$($seasonNum)E0$($episode).$($format)";
         };
