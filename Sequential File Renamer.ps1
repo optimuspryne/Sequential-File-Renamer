@@ -36,4 +36,10 @@ do{
     
     $finish = Read-Host -Prompt "Would you like to rename anymore files? (Y/N)";
 
+    if ($finish -ne "Y" -or $finish -ne "y" -or $finish -ne "N" -or $finish -ne "n") {
+         do {
+            $finish = Read-Host -Prompt "Incorrect input.  Would you like to rename anymore files? (Y/N)";
+        }until ($finish -eq "Y" -or $finish -eq "y" -or $finish -eq "N" -or $finish -eq "n")
+    }
+   
 }until ($finish -eq "N" -or $finish -eq "n");
