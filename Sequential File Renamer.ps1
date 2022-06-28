@@ -6,19 +6,19 @@
 <# That's basically it.  It's far from perfect and can easily break but it kind of works and is making my life a lot easier. #>
 
 do{
-    $i=0;
+    [int]$i=0;
     $location = Read-Host -Prompt "Where are the files located?";
-    $format = Read-Host -Prompt "What is the file type of the videos files? (Do not inclued the '.' mkv, mp4, etc...)";
-    [array]$files=Get-ChildItem -File $location -Recurse -Include *.$format;
+    $format = Read-Host -Prompt "What is the file type of the videos files? (Do not include the '.' mkv, mp4, etc...)";
+    [array]$files=Get-ChildItem -File $location -Recurse -Include *.$format | Sort-Object { [regex]::Replace($_.Name, '\d+', { $args[0].Value.PadLeft(20) }) };
     $count = $files.Length;
     $showname = Read-Host -Prompt "Name of the Show?";
-    $seasonNum = Read-Host -Prompt "Which Season? (Just the number, i.e. 1, 2, etc...)";
+    [int]$seasonNum = Read-Host -Prompt "Which Season? (Just the number, i.e. 1, 2, etc...)";
 
     do {
 
         $oldName = $files[$i].Name;
         $fileLocation = "$location\$oldName";
-        $episode = $i + 1;
+        [int]$episode = $i + 1;
 
         if ($seasonNum -ge 10){
             if ($episode -ge 10){
@@ -26,6 +26,8 @@ do{
             }else {
                 Rename-Item -Path $fileLocation -NewName "$($showname) S$($seasonNum)E0$($episode).$($format)";
             };      
+        }elseif ($episode -ge 10){
+            Rename-Item -Path $fileLocation -NewName "$($showname) S0$($seasonNum)E$($episode).$($format)";
         }else {
             Rename-Item -Path $fileLocation -NewName "$($showname) S0$($seasonNum)E0$($episode).$($format)";
         };
@@ -35,11 +37,5 @@ do{
     }until ($i -eq $count);
     
     $finish = Read-Host -Prompt "Would you like to rename anymore files? (Y/N)";
-
-    if ($finish -ne "Y" -or $finish -ne "y" -or $finish -ne "N" -or $finish -ne "n") {
-         do {
-            $finish = Read-Host -Prompt "Incorrect input.  Would you like to rename anymore files? (Y/N)";
-        }until ($finish -eq "Y" -or $finish -eq "y" -or $finish -eq "N" -or $finish -eq "n")
-    }
    
-}until ($finish -eq "N" -or $finish -eq "n");
+}until ($finish -like "n");
